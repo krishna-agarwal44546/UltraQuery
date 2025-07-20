@@ -1,0 +1,42 @@
+Metadata-Version: 2.4
+Name: UltraQuery
+Version: 0.0.3
+Author: Mayank Chaudhary,Krishna Agarwal,Abhedhya Faujdar
+Author-email: mayankchaudhary92197@gmail.com,krishnaiit7@gmail.com,fabhedhya@gmail.com
+License: MIT
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: pandas
+Requires-Dist: matplotlib
+Dynamic: author
+Dynamic: author-email
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+
+# UltraQuery
+
+**UltraQuery** : A dynamic , modern and fast working library for reading csv files of hundreds of MBs in microseconds and even plotting in some miliseconds
+
+**CLI Connection**:
+
+It has its own integrated CLI tool  as well 
+
+**PLotting Graphs**:
+
+It can show bar , pie and many more kinds of graphs according to the user
+
+## INSTALLATION 
+* pip install UltraQuery 
+
+# It is tested on so many datasets 
+
+## License
+
+UltraQuery is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
+
+
