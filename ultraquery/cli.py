@@ -1,5 +1,5 @@
 import argparse
-import UltraQuery_core.internal as internal
+import ultraquery.UltraQuery as internal
 import os
 
 def main():

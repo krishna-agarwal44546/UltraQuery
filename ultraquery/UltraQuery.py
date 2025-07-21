@@ -3,11 +3,13 @@ import time
 import os
 import platform
 import sys
-import UltraQuery_core.plotengine as ple
+import io
+import ultraquery.plotengine as ple
 
 # Determine platform and correct DLL/SO path
 engine_dir = os.path.join(os.path.dirname(__file__), "engine_lib")
 engine_path = os.path.join(engine_dir, "engine.dll") if platform.system() == "Windows" else os.path.join(engine_dir, "engine.so")
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 if not os.path.exists(engine_path):
     print(f"❌ Critical: Engine file not found at {engine_path}")

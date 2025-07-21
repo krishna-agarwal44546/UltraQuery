@@ -1,5 +1,5 @@
-include UltraQuery_core/engine_lib/engine.dll
-include UltraQuery_core/engine_lib/engine.so
-include UltraQuery_core/engine_lib/libgcc_s_seh-1.dll
-include UltraQuery_core/engine_lib/libstdc++-6.dll
-include UltraQuery_core/engine_lib/libwinpthread-1.dll
+include ultraquery/engine_lib/engine.dll
+include ultraquery/engine_lib/engine.so
+include ultraquery/engine_lib/libgcc_s_seh-1.dll
+include ultraquery/engine_lib/libstdc++-6.dll
+include ultraquery/engine_lib/libwinpthread-1.dll

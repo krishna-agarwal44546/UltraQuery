@@ -1,1 +1,1 @@
-UltraQuery_core
+ultraquery
