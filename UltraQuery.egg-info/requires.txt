@@ -1,4 +1,0 @@
-pandas
-matplotlib
-typer
-prompt_toolkit
