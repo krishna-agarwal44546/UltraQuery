@@ -1,5 +1,5 @@
 import ctypes
-import time
+import sqlite3
 import os
 import platform
 import sys
@@ -37,6 +37,33 @@ class UltraQuery:
             print(f"❌ File '{csv}' not found.")
             sys.exit(1)
         return clib.dataframe(csv.encode(),limit)
+
+    def viewsql(self,file,table,limit):
+        conn = sqlite3.connect(file)
+        cursor = conn.cursor()
+        cursor.execute(f"SELECT * FROM {table}")
+        column_names = [description[0] for description in cursor.description]
+        rows = cursor.fetchall()
+        i=0
+        while(i<len(column_names)):
+            with open("sample.txt","a") as f:
+                if(i==len(column_names)-1):
+                    f.write(f"{column_names[i]}\n")
+                else:
+                    f.write(f"{column_names[i]},")
+            i=i+1
+        for row in rows:
+             
+            with open("sample.txt","a") as f:
+                i=0
+                while(i<len(column_names)):
+                    if(i==len(column_names)-1):
+                        f.write(f"{row[i]}\n")
+                    else:
+                        f.write(f"{row[i]},")
+                    i=i+1
+        UltraQuery.df(self,"sample.txt",limit)
+        os.remove("sample.txt")
     
 
     def plot(self, file, xcol, ycol, graph_type):

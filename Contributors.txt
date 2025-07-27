@@ -1,0 +1,17 @@
+UltraQuery v0.0.8 – Contributors
+Release Date: July 27, 2025
+--------------------------------------
+
+👑 Core Team:
+- Mayank Chaudhary – C++ Engine Developer + Optimization Lead - mayankchaudhary92197@gmail.com
+- Krishna Agarwal – Python Developer (CLI + Internal Architecture) - krishnaiit7@gmail.com
+- Abhedhya Faujdar – Plotting Developer & Marketing Lead - fabhedhya@gmail.com
+
+✍️ Documentation:
+- Krishna Agarwal
+
+🙌 Special Thanks:
+- Python, SQLite, and Matplotlib communities
+
+--------------------------------------
+GitHub: https://github.com/krishna-agarwal44546/UltraQuery

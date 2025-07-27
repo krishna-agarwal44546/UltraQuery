@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "UltraQuery"
+version = "0.0.9"
+description = "A Blazing fast library for CSV,txt,SQL reading and CLI Plotting"
+authors = [
+    { name="Mayank Chaudhary , Krishna Agarwal , Abhedhya faujdar", email="mayankchaudhary92197@gmail.com" },
+]
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.6"
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Utilities",
+    "Topic :: Scientific/Engineering :: Visualization",
+]
+
+keywords = ["cli", "csv", "data", "query", "plot", "visualization", "ultraquery"]
+
+# 👇 Dependencies
+dependencies = [
+    "pandas",
+    "matplotlib",
+    "prompt_toolkit"
+]
+
+
+[project.urls]
+Homepage = "https://github.com/krishna-agarwal44546/UltraQuery"
+Documentation = "https://github.com/krishna-agarwal44546/UltraQuery/blob/main/Documentation.pdf"
+Contributors="https://github.com/krishna-agarwal44546/UltraQuery/blob/main/Contributors.txt"
+LICENSE="https://github.com/krishna-agarwal44546/UltraQuery/blob/main/LICENSE.txt"
+
+[project.scripts]
+ultraquery = "ultraquery.cli:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
