@@ -1,46 +1,125 @@
 # UltraQuery
 
-**UltraQuery** : A dynamic , modern and fast working library for reading csv files of hundreds of MBs in microseconds and even plotting in some miliseconds
+UltraQuery is a fast and lightweight Python module + CLI tool for:
 
-**CLI Connection**:
+- 📂 Reading `.csv`, `.txt`, and `.sqlite` files  
+- 👁️ Viewing data or building DataFrame-like structures  
+- 📈 Plotting directly from terminal using CLI flags  
+- ⚙️ Powered by a custom **C++ engine** for high performance  
 
-It has its own integrated CLI tool  as well 
+---
 
-**PLotting Graphs**:
+## 🔖 Version
 
-It can show bar , pie and many more kinds of graphs according to the user
+- **v0.0.9**
+- Released: **27-07-2025**
+- Authors: Mayank Chaudhary, Krishna Agarwal, Abhedhya Faujdar
 
-## INSTALLATION 
-* pip install UltraQuery 
+---
 
-# It is tested on so many datasets 
+## 📦 Installation
 
-## GitHub
-👉 [Visit Our Github](https://github.com/krishna-agarwal44546/UltraQuery)
+```bash
+pip install UltraQuery
+```
 
-## 📄 Documentation
+- [GitHub Repository](https://github.com/krishna-agarwal44546/UltraQuery)  
+- [PyPI Page](https://pypi.org/project/UltraQuery/)
 
-👉 [View Full Documentation (PDF)](Documentation.pdf)
+---
 
+## 🐍 Python Usage
 
-## 👨‍💻 Authors & Maintainers
+```python
+from ultraquery import UltraQuery 
 
-- **Krishna Agarwal**  
-  📩 [krishnaiit7@gmail.com](mailto:krishnaiit7@gmail.com)  
-  🛠️ Python Developer ( CLI + Internal Architecture)
+uq = UltraQuery.UltraQuery() 
 
-- **Mayank Chaudhary**  
-  📩 [mayankchaudhary92197@gmail.com](mailto:mayankchaudhary92197@gmail.com)  
-  ⚙️ Engine Developer (C++ Backend) 
+uq.viewdata("cars.csv", limit=20) 
+uq.df("cars.csv", limit=100) 
+uq.plot("cars.csv", xcol="year", ycol="price", graph_type="line")
+```
 
-- **Abhedhya Faujdar**  
-  📩 [fabhedhya@gmail.com](mailto:fabhedhya@gmail.com)  
-  📊 Plot Engine & Marketing Lead
+---
 
-👉 See [Contributors.txt](Contributors.txt) for full contribution list.
+## 💻 CLI Usage
 
-## License
+```bash
+ultraquery -f cars.csv -l 50 -df
+ultraquery -f cars.csv -l 100 -plt -x year -y price -typ line
+```
 
-UltraQuery is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
+---
 
+## 🚩 CLI Flags
 
+| Flag  | Description                       |
+|-------|-----------------------------------|
+| `-f`  | Path to CSV/SQL file              |
+| `-df` | Show data as a table              |
+| `-l`  | Limit number of rows to load      |
+| `-plt`| Enable graph plotting             |
+| `-x`  | Set X-axis column                 |
+| `-y`  | Set Y-axis column                 |
+| `-typ`| Type of plot (`bar`, `pie`, etc.) |
+| `-sql`| Enable SQLite mode                |
+| `table`| Specify SQLite table             |
+| `col` | View column list                  |
+| `vc`  | View raw column data              |
+
+---
+
+## 🧠 Available Functions
+
+```python
+viewcolumn(file)             # List columns from a CSV  
+viewdata(file, n)            # Display top n rows  
+df(file, n)                  # Load data into custom frame  
+viewsql(file, table, n)      # Load rows from SQLite  
+plot(file, x, y, typ)        # Plot selected columns  
+```
+
+### ✅ Supported Plot Types
+- bar
+- line
+- scatter
+- pie
+- histogram
+
+---
+
+## 📊 Example
+
+```bash
+ultraquery -f sales.csv -l 100 -plt -x month -y revenue -typ bar
+```
+
+---
+
+## 🚀 Features
+
+- ⚡ Fast CSV reading via C++ engine  
+- 🧪 Native Python class interface  
+- 🧭 CLI for quick data exploration  
+- 🎨 Easy plotting with matplotlib  
+- 🗄️ SQLite table reading support  
+
+---
+
+## 🔍 Engine Details
+
+- Uses native shared library (`engine.dll` / `engine.so`)  
+- Loaded via `ctypes`  
+- Core C++ functions: `readcsv`, `columnsget`, `getdata`, `dataframe`
+
+---
+
+## 👥 Contributors
+
+- [Contributors.txt](https://github.com/krishna-agarwal44546/UltraQuery/blob/main/Contributors.txt)
+
+## 📄 License
+
+- [LICENSE.txt](https://github.com/krishna-agarwal44546/UltraQuery/blob/main/LICENSE.txt)
+
+---
