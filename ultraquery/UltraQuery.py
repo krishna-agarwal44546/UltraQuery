@@ -3,6 +3,7 @@ import sqlite3
 import os
 import platform
 import sys
+import csv
 import io
 import ultraquery.plotengine as ple
 
@@ -16,22 +17,100 @@ if not os.path.exists(engine_path):
     sys.exit(1)
 
 clib = ctypes.CDLL(engine_path)
-
 clib.readcsv.argtypes = [ctypes.c_char_p, ctypes.c_int]
 clib.columnsget.argtypes = [ctypes.c_char_p]
 clib.getdata.argtypes = [ctypes.c_char_p, ctypes.c_int]
 clib.dataframe.argtypes = [ctypes.c_char_p, ctypes.c_int]
 
+def listcolumn(csvfile,x: str):
+    a=[]
+    ans=[]
+    with open(csvfile,"r",newline="") as f:
+        sample = f.read(1024)  # Read a small chunk of the file
+        dialect = csv.Sniffer().sniff(sample)
+    with open(csvfile,"r") as f:
+        if dialect.delimiter==',':
+            reader=csv.DictReader(f,delimiter=',')
+            for column in reader:
+                a.append(list(column.values()))
+            z=list(column.keys())
+    
+        elif dialect.delimiter=='\t':
+            reader=csv.DictReader(f,delimiter='\t')
+            for column in reader:
+                m=list(column.values())
+                a.append(m)
+            z=list(column.keys())
+        i=0
+        while(i<len(z)):
+            if z[i]==x:
+                i=i
+                break
+                
+            else:
+                i=i+1
+    
+        p=0
+        while(p<len(a)):
+            ans.append(a[p][i])
+            p=p+1
+    return ans
+
+
+def columns(csvfile):
+    with open(csvfile,"r",newline="") as f:
+        sample = f.read(1024)  # Read a small chunk of the file
+        dialect = csv.Sniffer().sniff(sample)
+    with open(csvfile,"r") as f:
+        if dialect.delimiter==',':
+            reader=csv.DictReader(f,delimiter=',')
+            for column in reader:
+                z=list(column.keys())
+    
+        elif dialect.delimiter=='\t':
+            reader=csv.DictReader(f,delimiter='\t')
+            for column in reader:
+                m=list(column.values())
+            z=list(column.keys())
+    return z
+    
 class UltraQuery:
     def __init__(self):
         pass
 
+    def read_dict(self,dict: dict):
+        keys=list(dict.keys())
+        values=list(dict.values())
+        with open("read.csv","a") as f:
+            i=0
+            while(i<len(keys)):
+                if i==len(keys)-1:
+                    f.write(f"{keys[i]}\n")
+                else:
+                    f.write(f"{keys[i]},")
+                i=i+1
+
+            k=0
+            while(k<len(values[0])):
+                j=0
+                while(j<len(values)):
+                    if j==len(values)-1:
+                        f.write(f"{values[j][k]}\n")
+                    else:
+                        f.write(f"{values[j][k]},")
+                    j=j+1
+                k=k+1
+
+        UltraQuery.df(self,"read.csv",len(values[0]))
+        os.remove("read.csv")
+
     def viewcolumn(self, csv):
         return clib.columnsget(csv.encode())
-
-    def viewdata(self, csv, limit):
-        return clib.getdata(csv.encode(), limit if limit else 100)
     
+    def viewdata(self,csv,col):
+        for i in listcolumn(csv,col):
+            print(f"{i}")
+
     def df(self,csv,limit):
         if not os.path.exists(csv):
             print(f"❌ File '{csv}' not found.")

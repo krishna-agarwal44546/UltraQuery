@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "UltraQuery"
-version = "0.0.9"
-description = "A Blazing fast library for CSV,txt,SQL reading and CLI Plotting"
+version = "0.1.0"
+description = "A Blazing fast DataScience library for CSV,txt,SQL,Dictionary reading and CLI Plotting"
 authors = [
     { name="Mayank Chaudhary , Krishna Agarwal , Abhedhya faujdar", email="mayankchaudhary92197@gmail.com" },
 ]
@@ -28,7 +28,7 @@ keywords = ["cli", "csv", "data", "query", "plot", "visualization", "ultraquery"
 
 # 👇 Dependencies
 dependencies = [
-    "pandas",
+    "numpy",
     "matplotlib",
     "prompt_toolkit"
 ]

@@ -1,7 +1,19 @@
-import time
+import sys
 import matplotlib.pyplot as plt
-import pandas as pd
+from collections import Counter
+import numpy as np
+from ultraquery import UltraQuery
 import os
+
+def try_float_conversion(values):
+    converted = []
+    for val in values:
+        try:
+            converted.append(float(val))
+        except ValueError:
+            converted.append(val)
+    return converted
+
 
 plt.rcParams['font.family'] = 'DejaVu Sans'
 plt.rcParams['axes.edgecolor'] = '#333F4B'
@@ -18,39 +30,50 @@ plt.rcParams['ytick.color'] = "#303C48"
 plt.rcParams['xtick.labelsize'] = 11
 plt.rcParams['ytick.labelsize'] = 11
 
-x = time.perf_counter()
-
-
 class UltraQuery_plot:
     def __init__(self, file, x, y):
-        self.x = x.strip()
-        self.y = y.strip()
+        self.x = x
+        self.y = y
 
         file_path = os.path.abspath(file)
         if not os.path.exists(file_path):
             print(f"[❌] File not found: {file_path}")
             exit(1)
 
-        # use encoding that won't crash on Windows CSVs
-        self.file = pd.read_csv(file_path, encoding='ISO-8859-1', engine='python', on_bad_lines='skip')
-        self.file.columns = self.file.columns.str.strip()
+        self.file = file
 
-        print(f"[✓] Columns: {self.file.columns.tolist()}")
-
-        if self.x not in self.file.columns:
+        # validate columns
+        columns = UltraQuery.columns(self.file)
+        if self.x not in columns:
             print(f"[✗] Column '{self.x}' not found.")
-            exit(1)
-        if self.y not in self.file.columns:
+            sys.exit()
+        if self.y not in columns:
             print(f"[✗] Column '{self.y}' not found.")
-            exit(1)
+            sys.exit()
 
-        self.counts = self.file[self.x].value_counts()
+        # load both columns
+        x_col = UltraQuery.listcolumn(self.file, self.x)
+        y_col = UltraQuery.listcolumn(self.file, self.y)
+
+        # align both columns by row index and filter bad rows
+        self.x_val = []
+        self.y_val = []
+        for xi, yi in zip(x_col, y_col):
+            if xi.strip() and yi.strip():  # skip empty
+                self.x_val.append(xi.strip())
+                self.y_val.append(yi.strip())
+
+        # build counts for bar/pie/hist
+        self.counts = dict(Counter(self.x_val))
+        self.ycounts = dict(Counter(self.y_val))
 
     def _bar(self):
+        x_final=try_float_conversion(self.x_val)
+        y_final=try_float_conversion(self.y_val)
         bars = plt.bar(
-            self.counts.index,
-            self.counts.values,
-            color=plt.cm.viridis_r(self.counts.values / max(self.counts.values)),
+            x_final,
+            y_final,
+            color=plt.cm.viridis_r(np.array(list(self.counts.values())) / max(np.array(list(self.counts.values())))),
             alpha=0.85,
             edgecolor='#222222',
             linewidth=0.8
@@ -66,12 +89,14 @@ class UltraQuery_plot:
         plt.show()
 
     def _pie(self):
+        x_final=try_float_conversion(self.x_val)
+        y_final=try_float_conversion(self.y_val)
         plt.pie(
-            self.counts.values,
-            labels=self.counts.index,
+            y_final,
+            labels=x_final,
             autopct='%1.1f%%',
             startangle=140,
-            colors=plt.cm.plasma(self.counts.values / max(self.counts.values)),
+            colors=plt.cm.plasma(np.array(list(self.counts.values())) / max(np.array(list(self.counts.values())))),
             wedgeprops={'edgecolor': 'black', 'linewidth': 0.7},
             textprops={'fontsize': 12, 'color': 'black'}
         )
@@ -80,10 +105,11 @@ class UltraQuery_plot:
         plt.show()
 
     def _line(self):
-        x_vals = range(len(self.counts.index))
-        y_vals = self.counts.values
-        plt.plot(x_vals, y_vals, marker='o', linestyle='-', color="#1575ba", alpha=0.85, linewidth=2)
-        plt.xticks(x_vals, self.counts.index, rotation=45, ha='right', fontsize=12)
+        x_final=try_float_conversion(self.x_val)
+        y_final=try_float_conversion(self.y_val)
+
+        plt.plot(x_final, y_final, marker='o', linestyle='-', color="#1575ba", alpha=0.85, linewidth=2)
+        plt.xticks(rotation=45, ha='right')
         plt.xlabel(self.x, fontsize=14)
         plt.ylabel(self.y, fontsize=14)
         plt.title(f'{self.x} vs {self.y}', fontsize=16)
@@ -93,12 +119,15 @@ class UltraQuery_plot:
         plt.gca().spines['right'].set_visible(False)
         plt.show()
 
+
     def _scatter(self):
+        x_final=try_float_conversion(self.x_val)
+        y_final=try_float_conversion(self.y_val)
         plt.scatter(
-            self.counts.index,
-            self.counts.values,
+            x_final,
+            y_final,
             s=100,
-            c=plt.cm.cividis(self.counts.values / max(self.counts.values)),
+            c=plt.cm.cividis(np.array(list(self.counts.values())) / max(np.array(list(self.counts.values())))),
             alpha=0.85,
             edgecolors='black',
             linewidth=0.7
@@ -114,8 +143,9 @@ class UltraQuery_plot:
         plt.show()
 
     def _histogram(self):
+        y_final=try_float_conversion(self.y_val)
         plt.hist(
-            self.counts.values,
+            y_final,
             bins=10,
             edgecolor='black',
             color=plt.cm.magma(0.7),
@@ -130,16 +160,3 @@ class UltraQuery_plot:
         plt.gca().spines['right'].set_visible(False)
         plt.show()
 
-
-if __name__ == "__main__":
-    y = time.perf_counter()
-    available_types = ['bar']
-    print("Available plot types:", ", ".join(available_types))
-    user_choice = input("Choose plot type: ").strip().lower()
-    uq = UltraQuery_plot("cars.csv", "Engines", "CC/Battery Capacity")
-    try:
-        uq.plot(user_choice)
-    except ValueError as e:
-        print(e)
-
-    print(f"Execution time: {y - x:.4f} seconds")

@@ -1,11 +1,9 @@
 import argparse
 import ultraquery.UltraQuery as uq
-
 def main():
-
     parser=argparse.ArgumentParser(description="Welcome to UltraQuery CLI Tool")
     parser.add_argument("-f","--file",help="type -f to enter the file")
-    parser.add_argument("-col","--columns",help="type -col to view the columns list")
+    parser.add_argument("-column_list","--columns",help="type -col to view the columns list")
     parser.add_argument("-vc","--column_data")
     parser.add_argument("-plt","--plot",action="store_true",help="Plot the graphs")
     parser.add_argument("-typ","--type",help="Available type of graphs :\n['bar','pie','line','scatter','histogram']")
@@ -15,13 +13,15 @@ def main():
     parser.add_argument("-l","--limit",type=int,help="type -l to limit the number of rows")
     parser.add_argument("-sql","--SQL",action="store_true",help="for SQL databases")
     parser.add_argument("-table","--table",help="Type -table for entering the table name")
+    parser.add_argument("-dict","--dictionary",help="add your dictionary ")
+    parser.add_argument("-col""--column",help="Enter Your column name")
     args=parser.parse_args()
     
     if args.columns:
         uq.UltraQuery().viewcolumn(args.file,100)
     
     if args.column_data:
-        uq.UltraQuery().viewdata(args.file,args.limit)
+        uq.UltraQuery().viewdata(args.file,args.column)
 
     if args.DataFrame:
         uq.UltraQuery().df(args.file,args.limit)
@@ -31,4 +31,7 @@ def main():
     
     if args.plot:
         uq.UltraQuery().plot(args.file,args.xAxis,args.yAxis,args.type)
+
+    if args.dictionary:
+        uq.UltraQuery().read_dict(args.dictionary)
 

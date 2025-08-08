@@ -1,3 +1,29 @@
+Metadata-Version: 2.4
+Name: UltraQuery
+Version: 0.1.0
+Summary: A Blazing fast DataScience library for CSV,txt,SQL,Dictionary reading and CLI Plotting
+Author-email: "Mayank Chaudhary , Krishna Agarwal , Abhedhya faujdar" <mayankchaudhary92197@gmail.com>
+Project-URL: Homepage, https://github.com/krishna-agarwal44546/UltraQuery
+Project-URL: Documentation, https://github.com/krishna-agarwal44546/UltraQuery/blob/main/Documentation.pdf
+Project-URL: Contributors, https://github.com/krishna-agarwal44546/UltraQuery/blob/main/Contributors.txt
+Project-URL: LICENSE, https://github.com/krishna-agarwal44546/UltraQuery/blob/main/LICENSE.txt
+Keywords: cli,csv,data,query,plot,visualization,ultraquery
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Utilities
+Classifier: Topic :: Scientific/Engineering :: Visualization
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: numpy
+Requires-Dist: matplotlib
+Requires-Dist: prompt_toolkit
+Dynamic: license-file
+
 # UltraQuery
 
 UltraQuery is a fast and lightweight Python module + CLI tool for:
